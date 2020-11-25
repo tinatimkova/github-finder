@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types' 
 
 const UserItem = ({ user: { avatar_url, login, html_url } }) => {
     return (
@@ -10,7 +11,7 @@ const UserItem = ({ user: { avatar_url, login, html_url } }) => {
     )
 }
 
-UserItem.PropTypes = {
+UserItem.propTypes = {
     user: PropTypes.object.isRequired
 }
 
