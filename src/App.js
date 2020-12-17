@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Users from './components/users/Users'
 import Search from './components/users/Search'
 import Alert from './components/layout/Alert'
+import About from './components/pages/About'
 import './App.css';
 import axios from 'axios'
 
@@ -48,9 +50,13 @@ class App extends Component {
     const { users, loading } = this.state
 
     return (
+      <Router>
       <div className="App">
         <Navbar />
         <div className='container'>
+          <Switch>
+            <Route exact path='/' render={props => (
+              <Fragment>
           <Alert alert={this.state.alert} />
           <Search 
             searchUsers={this.searchUsers} 
@@ -59,8 +65,13 @@ class App extends Component {
             setAlert={this.setAlert}
           />
           <Users users={users} loading={loading} />
+              </Fragment>
+            )} />
+            <Route exact path='/about' component={About} />
+          </Switch>
         </div>
       </div>
+      </Router>
     );
   }
 }
