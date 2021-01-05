@@ -13,7 +13,6 @@ import './App.css';
 import axios from 'axios'
 
 const App = () => {
-  const [ users, setUsers ] = useState([])
   const [ user, setUser ] = useState({})
   const [ loading, setLoading ] = useState(false)
   const [ alert, setAlert ] = useState(null)
@@ -27,30 +26,11 @@ const App = () => {
   //   this.setState({ users: res.data, loading: false })
   // }
 
-
-    // Clear users from state
-    const clearUsers = () => {
-      setUsers([])
-    }
-
   // Show Alert
   const showAlert = (msg, type) => {
     setAlert({ msg, type })
 
     setTimeout(() => setAlert(null), 5000)
-  }
-
-  // Get a single Github user
-  const getUser = async (username) => {
-    setLoading(true)
-
-    const res = await axios({
-      method: 'get',
-      url: `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    })
-  
-    setUser(res.data)
-    setLoading(false)
   }
 
   // Get user's repos
@@ -76,22 +56,17 @@ const App = () => {
             <Route exact path='/' render={props => (
               <Fragment>
           <Alert alert={alert} />
-          <Search 
-            clearUsers={clearUsers} 
-            // showClear={users.length > 0 ? true : false}
+          <Search
             setAlert={showAlert}
           />
-          <Users users={users} loading={loading} />
+          <Users />
               </Fragment>
             )} />
             <Route exact path='/about' component={About} />
             <Route exact path='/users/:login' render={props => (
               <User {...props} 
-              getUser={getUser} 
-              user={user}
               repos={repos}
-              getUserRepos={getUserRepos}
-              loading={loading} />
+              getUserRepos={getUserRepos} />
             )} />
           </Switch>
         </div>
