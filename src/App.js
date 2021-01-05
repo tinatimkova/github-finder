@@ -10,13 +10,9 @@ import About from './components/pages/About'
 import GithubState from './context/github/GithubState';
 
 import './App.css';
-import axios from 'axios'
 
 const App = () => {
-  const [ user, setUser ] = useState({})
-  const [ loading, setLoading ] = useState(false)
   const [ alert, setAlert ] = useState(null)
-  const [ repos, setRepos ] = useState([])
 
   // async componentDidMount() {
   //   this.setState({ loading: true })
@@ -31,19 +27,6 @@ const App = () => {
     setAlert({ msg, type })
 
     setTimeout(() => setAlert(null), 5000)
-  }
-
-  // Get user's repos
-  const getUserRepos = async (username) => {
-    setLoading(true)
-
-    const res = await axios({
-      method: 'get',
-      url: `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
-    })
-
-    setRepos(res.data)
-    setLoading(false)
   }
 
     return (
@@ -63,11 +46,7 @@ const App = () => {
               </Fragment>
             )} />
             <Route exact path='/about' component={About} />
-            <Route exact path='/users/:login' render={props => (
-              <User {...props} 
-              repos={repos}
-              getUserRepos={getUserRepos} />
-            )} />
+            <Route exact path='/users/:login' component={User} />
           </Switch>
         </div>
       </div>
